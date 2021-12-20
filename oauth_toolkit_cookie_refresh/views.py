@@ -21,7 +21,15 @@ class TokenRefresh(APIView, OAuthToolKitMixin):
 
 class LogOff(APIView, OAuthToolKitMixin):
     '''Log off API endpoint'''
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
         return self.get_logoff_response(request)
+
+
+class LogOffEverywhere(APIView, OAuthToolKitMixin):
+    '''Log off any signed in sessions by revoking all refresh token and access token associated with current user'''
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        return self.get_logoff_everywhere_response(request)

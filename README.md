@@ -4,11 +4,17 @@ Django-oauth-toolkit-cookie-refresh is a Django app to that provides authenticat
 
 #### Motivation
 
-I was using django-oauth-toolkit in a project, but I wanted the refresh tooken to handled by a HttpOnly cookie.
+I was using django-oauth-toolkit in a project, but I wanted the refresh tooken to be handled by a HttpOnly cookie.
 
 ## Quick start
 
-Include the oauth_toolkit_cookie_refresh URLconf in your project urls.py like this:
+Install from source:
+
+```
+pip install git+https://github.com/oscarychen/django-oauth-toolkit-cookie-refresh.git
+```
+
+Include the oauth_toolkit_cookie_refresh URLconf in your project urls.py:
 
 ```
     path('auth/', include('oauth_toolkit_cookie_refresh.urls')),
@@ -18,7 +24,7 @@ Include the oauth_toolkit_cookie_refresh URLconf in your project urls.py like th
 
 To continue develope this package, I've included a `requirements.txt` and `env_setup.sh` to help you get up and running.
 
-With the appropriate Python environment activated, run the following to set up a Python virtual environment in project directory:
+With the appropriate Python(ie: Python 3.8), run the following to set up a Python virtual environment in project directory:
 
 ```
 source env_setup.py

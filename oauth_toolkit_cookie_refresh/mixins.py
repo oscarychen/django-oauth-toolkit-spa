@@ -21,6 +21,20 @@ class OAuthToolKitMixin:
 
         return self._set_cookie_header_in_response(response, refresh_token.token)
 
+    def get_logoff_response(self, request):
+        '''Revokes refresh token and associated access token.'''
+        serializer = RefreshSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        client_id = serializer.validated_data['client_id']
+        token = self._get_token_from_cookie(request)
+        try:
+            refresh_token = get_refresh_token_model().objects.get(token=token, application__client_id=client_id, revoked__isnull=True)
+        except:
+            return self._set_delete_cookie_response()
+
+        refresh_token.revoke()
+        return self._set_delete_cookie_response()
+
     def get_refresh_response(self, request):
         '''Returns token refresh response when user refreshes using a refresh token.'''
         serializer = RefreshSerializer(data=request.data)
@@ -97,7 +111,7 @@ class OAuthToolKitMixin:
             raise AuthenticationFailed()
         return token
 
-    def get_delete_cookie_response(self, status=status.HTTP_401_UNAUTHORIZED):
+    def _set_delete_cookie_response(self, status=status.HTTP_200_OK):
         response = Response(status=status)
         response.delete_cookie(key=settings.REFRESH_COOKIE_NAME, path="/auth")
         return response

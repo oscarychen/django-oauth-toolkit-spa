@@ -30,9 +30,9 @@ class OAuthToolKitMixin:
 
     def get_logoff_everywhere_response(self, request):
         '''Revokes all refresh tokens associated with user'''
-        refresh_tokens, access_tokens = self._get_all_oustanding_tokens(request)
-        refresh_tokens.update(revoked=timezone.now(), access_token=None)
+        refresh_tokens, access_tokens = self._get_all_tokens(request)
         access_tokens.delete()
+        refresh_tokens.update(revoked=timezone.now(), access_token=None)
 
         return self._set_delete_cookie_response()
 
@@ -125,7 +125,7 @@ class OAuthToolKitMixin:
         refresh_token.save()
         return access_token, refresh_token
 
-    def _get_all_oustanding_tokens(self, request):
+    def _get_all_tokens(self, request):
         '''Returns oustanding refresh token and access token instances.'''
         serializer = LogInSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -138,7 +138,7 @@ class OAuthToolKitMixin:
 
         refresh_tokens = get_refresh_token_model().objects.filter(
             user=user, application__client_id=client_id, revoked__isnull=True)
-        access_tokens = get_access_token_model().objects.filter(user=user, refresh_token__in=refresh_tokens)
+        access_tokens = get_access_token_model().objects.filter(user=user)
 
         return refresh_tokens, access_tokens
 

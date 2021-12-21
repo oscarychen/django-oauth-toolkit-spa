@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import LogIn, TokenRefresh, LogOff, LogOffEverywhere
+from .settings import oauth2_settings
 
 urlpatterns = [
     path('login/', LogIn.as_view()),

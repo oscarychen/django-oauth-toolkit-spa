@@ -2,7 +2,7 @@ from datetime import timedelta
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import status
-from oauth2_provider.settings import oauth2_settings
+from .settings import oauth2_settings
 from oauth2_provider.models import get_access_token_model, get_refresh_token_model, get_application_model
 from oauthlib import common
 from django.conf import settings
@@ -77,7 +77,7 @@ class OAuthToolKitMixin:
     def _get_token_from_cookie(self, request, raise_exception=True) -> Union[str, None]:
         '''Reads refresh token from cookie.'''
         try:
-            token = request.get_signed_cookie(settings.REFRESH_COOKIE_NAME, salt="token_cookie_salt")
+            token = request.get_signed_cookie(oauth2_settings.REFRESH_COOKIE_NAME, salt="token_cookie_salt")
         except:
             if raise_exception is True:
                 raise AuthenticationFailed()
@@ -144,11 +144,11 @@ class OAuthToolKitMixin:
 
     def _set_cookie_header_in_response(self, response, refresh_token):
         '''Sets refresh token as samesite HttpOnly cookie in header'''
-        response.set_signed_cookie(key=settings.REFRESH_COOKIE_NAME, value=refresh_token, salt="token_cookie_salt", expires=self._get_refresh_token_expires_time(),
-                                   httponly=True, samesite='strict', secure=not settings.DEBUG, path="/auth")
+        response.set_signed_cookie(key=oauth2_settings.REFRESH_COOKIE_NAME, value=refresh_token, salt="token_cookie_salt", expires=self._get_refresh_token_expires_time(),
+                                   httponly=True, samesite='strict', secure=not settings.DEBUG, path=oauth2_settings.REFRESH_COOKIE_PATH)
         return response
 
     def _set_delete_cookie_response(self, status=status.HTTP_200_OK):
         response = Response(status=status)
-        response.delete_cookie(key=settings.REFRESH_COOKIE_NAME, path="/auth")
+        response.delete_cookie(key=oauth2_settings.REFRESH_COOKIE_NAME, path=oauth2_settings.REFRESH_COOKIE_PATH)
         return response

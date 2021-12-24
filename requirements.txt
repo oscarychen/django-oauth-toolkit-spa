@@ -1,6 +1,6 @@
-autopep8==1.5.7
-Django==3.2
-django-oauth-toolkit==1.5.0
-djangorestframework==3.12.4
-pylint==2.10.2
+autopep8==1.6.0
+Django==3.2.10
+django-oauth-toolkit==1.6.0
+djangorestframework==3.13.1
+pylint==2.12.2
 pylint-django==2.4.4

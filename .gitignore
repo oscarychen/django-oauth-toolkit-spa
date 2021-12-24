@@ -145,3 +145,6 @@ venv.bak/
 
 # csv files exported
 NOTE*.csv
+
+.idea
+.pylintrc

@@ -11,7 +11,13 @@ having the access token to be continue sent via request/response body.
 
 ## Quick start
 
-Install from source:
+Install using pip:
+
+```
+pip install django-oauth-toolkit-cookie-refresh
+```
+
+Or, install from source:
 
 ```commandline
 pip install git+https://github.com/oscarychen/django-oauth-toolkit-cookie-refresh.git
@@ -89,13 +95,7 @@ which also creates a `activate.sh`. and then activate the environment by running
 source activate.sh
 ```
 
-To build this package:
-
-```commandline
-python setup.py sdist
-```
-
-To include this package symbolically in another environment:
+To include this package symbolically in another environment (for development):
 
 ```commandline
 pip install -e PATH_TO_PACKAGE_DIRECTORY
@@ -105,4 +105,13 @@ Automated testing
 
 ```commandline
 tox
+```
+
+Build/distribution:
+
+```commandline
+python setup.py sdist bdist_wheel
+twine check dist/*
+twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+twine upload dist/*
 ```

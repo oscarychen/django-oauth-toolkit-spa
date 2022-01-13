@@ -6,8 +6,8 @@ and [Django Oauth Toolkit](https://github.com/jazzband/django-oauth-toolkit).
 
 #### Motivation
 
-I was using django-oauth-toolkit in a project, but I wanted the refresh tooken to be handled by a HttpOnly cookie, while
-having the access token to be continue sent via request/response body.
+I was using django-oauth-toolkit in a project, but I wanted the refresh token to be handled by a HttpOnly cookie, while
+continue having the access token sent via request/response body.
 
 ## Quick start
 
@@ -19,17 +19,13 @@ pip install django-oauth-toolkit-cookie-refresh
 
 Or, install from source:
 
-```commandline
-pip install git+https://github.com/oscarychen/django-oauth-toolkit-cookie-refresh.git
-```
-
 Set
-up [django-oauth-toolkit and django REST framework](https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/getting_started.html#step-1-minimal-setup):
+up [django-oauth-toolkit and django REST framework](https://django-oauth-toolkit.readthedocs.io/en/latest/rest-framework/getting_started.html#step-1-minimal-setup) if you haven't already:
 
 ```python
 INSTALLED_APPS = (
     'django.contrib.admin',
-    ...
+    ...,
     'oauth2_provider',
     'rest_framework',
 )
@@ -46,7 +42,7 @@ REST_FRAMEWORK = {
 Include the oauth_toolkit_cookie_refresh URLconf in your project urls.py:
 
 ```python
-    path('auth/', include('oauth_toolkit_cookie_refresh.urls')),
+path('auth/', include('oauth_toolkit_cookie_refresh.urls')),
 ```
 
 ## Settings
@@ -65,53 +61,15 @@ You can modify these settings by specifying them in the settings for django-oaut
 
 ```python
 OAUTH2_PROVIDER = {
+    ...,
+    "ACCESS_TOKEN_EXPIRE_SECONDS": 300,
+    "REFRESH_TOKEN_EXPIRE_SECONDS": 36000,
+    "REFRESH_COOKIE_NAME": "refresh_token",
+    "REFRESH_COOKIE_PATH": "/auth",
     ...
-"ACCESS_TOKEN_EXPIRE_SECONDS": 300,
-"REFRESH_TOKEN_EXPIRE_SECONDS": 36000,
-"REFRESH_COOKIE_NAME": "refresh_token",
-"REFRESH_COOKIE_PATH": "/auth",
-...
 }
 ```
 
 If you want to use a different path for authentication than the default path, you should provide the setting
 in `REFRESH_COOKIE_PATH`, using a string with leading slash `/`; while provide the same path in URLconf but with a
 trailing slash `/`.
-
-## Development
-
-To continue develope this package, I've included a `requirements.txt` and `env_setup.sh` to help you get up and running.
-
-With the appropriate Python(ie: Python 3.8), run the following to set up a Python virtual environment in project
-directory:
-
-```commandline
-source env_setup.py
-```
-
-which also creates a `activate.sh`. and then activate the environment by running:
-
-```commandline
-source activate.sh
-```
-
-To include this package symbolically in another environment (for development):
-
-```commandline
-pip install -e PATH_TO_PACKAGE_DIRECTORY
-```
-
-Automated testing
-
-```commandline
-tox
-```
-
-Build/distribution:
-
-```commandline
-python setup.py sdist bdist_wheel
-twine check dist/*
-twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-twine upload dist/*
-```

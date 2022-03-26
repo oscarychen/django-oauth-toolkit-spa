@@ -6,5 +6,5 @@ admin.autodiscover()
 
 
 urlpatterns = [
-    path("auth/", include("oauth_toolkit_cookie_refresh.urls"))
+    path("auth/", include("oauth_toolkit_spa.urls"))
 ]

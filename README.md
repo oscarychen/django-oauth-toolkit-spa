@@ -43,7 +43,7 @@ used for refreshing the tokens, therefore reducing attack surfaces further.
 Install using pip:
 
 ```
-pip install django-oauth-toolkit-cookie-refresh
+pip install django-oauth-toolkit-spa
 ```
 
 Or, install from source:
@@ -68,10 +68,10 @@ REST_FRAMEWORK = {
 }
 ```
 
-Include the oauth_toolkit_cookie_refresh URLconf in your project urls.py:
+Include the oauth_toolkit_spa URLconf in your project urls.py:
 
 ```python
-path('auth/', include('oauth_toolkit_cookie_refresh.urls')),
+path('auth/', include('oauth_toolkit_spa.urls')),
 ```
 
 ## Settings

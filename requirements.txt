@@ -1,5 +1,5 @@
 Django>=2.2
 django-oauth-toolkit>=1.5.0
 djangorestframework>=3.10
-tox>=3.24
+tox==3.26
 wheel>=0.37

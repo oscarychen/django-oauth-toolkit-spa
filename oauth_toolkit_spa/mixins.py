@@ -58,7 +58,7 @@ class OAuthToolKitMixin:
         if not token:
             return
 
-        refresh_token_creation_time = timezone.now() - timedelta(seconds=oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS or 36000)
+        refresh_token_creation_time = timezone.now() - timedelta(seconds=oauth2_settings.REFRESH_TOKEN_EXPIRE_SECONDS or 36000)
         try:
             refresh_token = get_refresh_token_model().objects.get(token=token, application__client_id=client_id,
                                                                   revoked__isnull=True, created__gt=refresh_token_creation_time)
